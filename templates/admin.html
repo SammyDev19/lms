@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>LIBRA — Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body class="dashboard admin-page">
+
+<header class="topbar">
+
+    <div class="brand">
+        📚 LIBRA
+    </div>
+
+    <div class="user-area">
+
+        <span>
+            Administrator
+        </span>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="library-container">
+
+    <section class="admin-heading">
+
+        <div>
+
+            <p class="eyebrow">
+                ADMINISTRATION
+            </p>
+
+            <h1>
+                Library control center.
+            </h1>
+
+        </div>
+
+    </section>
+
+
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <span>Total Books</span>
+
+            <strong>
+                {{ books|length }}
+            </strong>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span>Available</span>
+
+            <strong>
+                {{ books|selectattr("available")|list|length }}
+            </strong>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span>Members</span>
+
+            <strong>
+                {{ members|length }}
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <section class="admin-layout">
+
+        <div class="add-book-panel">
+
+            <p class="eyebrow">
+                CATALOG
+            </p>
+
+            <h2>Add a Book</h2>
+
+            <form
+                action="/admin/add-book"
+                method="POST"
+            >
+
+                <label>Book Title</label>
+
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="e.g. The Great Gatsby"
+                    required
+                >
+
+                <label>Author</label>
+
+                <input
+                    type="text"
+                    name="author"
+                    placeholder="e.g. F. Scott Fitzgerald"
+                    required
+                >
+
+                <button class="gold-button">
+                    Add to Collection
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="admin-books">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>Book Collection</h2>
+
+                    <p>
+                        Manage your library catalog.
+                    </p>
+
+                </div>
+
+                <input
+                    id="adminBookSearch"
+                    type="text"
+                    placeholder="Search..."
+                >
+
+            </div>
+
+
+            <div class="admin-book-list">
+
+                {% for book in books %}
+
+                <div
+                    class="admin-book"
+                    data-search="{{ book.title }} {{ book.author }}"
+                >
+
+                    <div class="admin-book-icon">
+                        📖
+                    </div>
+
+                    <div class="admin-book-info">
+
+                        <strong>
+                            {{ book.title }}
+                        </strong>
+
+                        <span>
+                            {{ book.author }}
+                        </span>
+
+                        <small>
+                            ISBN: {{ book.isbn }}
+                        </small>
+
+                    </div>
+
+
+                    {% if book.available %}
+
+                    <span class="available">
+                        Available
+                    </span>
+
+                    {% else %}
+
+                    <span class="unavailable">
+                        Borrowed
+                    </span>
+
+                    {% endif %}
+
+
+                    <form
+                        action="/admin/delete/{{ book.isbn }}"
+                        method="POST"
+                        onsubmit="return confirm('Remove this book?')"
+                    >
+
+                        <button class="remove-button">
+                            Remove
+                        </button>
+
+                    </form>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="members-section">
+
+        <p class="eyebrow">
+            MEMBERS
+        </p>
+
+        <h2>Registered Members</h2>
+
+        <div class="member-list">
+
+            {% for member in members %}
+
+            <div class="member-row">
+
+                <div class="avatar">
+                    {{ member.name[0] }}
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ member.name }}
+                    </strong>
+
+                    <span>
+                        ID: {{ member.member_id }}
+                    </span>
+
+                </div>
+
+                <span>
+                    {{ member.borrowed_books|length }}
+                    borrowed
+                </span>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script
+    src="{{ url_for('static', filename='script.js') }}"
+></script>
+
+</body>
+
+</html>

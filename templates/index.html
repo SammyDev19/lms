@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Libra — Library Management</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body class="landing">
+
+    <div class="library-hero">
+
+        <nav>
+
+            <div class="brand">
+                <span class="brand-icon">📚</span>
+                <span>LIBRA</span>
+            </div>
+
+            <span class="brand-subtitle">
+                Library Management System
+            </span>
+
+        </nav>
+
+
+        <div class="hero-content">
+
+            <div class="hero-text">
+
+                <p class="eyebrow">
+                    KNOWLEDGE • DISCOVERY • ACCESS
+                </p>
+
+                <h1>
+                    Your library,<br>
+                    <span>beautifully organized.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Discover books, manage your collection,
+                    and keep track of everything you borrow.
+                </p>
+
+            </div>
+
+
+            <div class="login-panel">
+
+                <div class="panel-tabs">
+
+                    <button
+                        class="tab active"
+                        onclick="showPanel('memberPanel')"
+                    >
+                        Member
+                    </button>
+
+                    <button
+                        class="tab"
+                        onclick="showPanel('adminPanel')"
+                    >
+                        Admin
+                    </button>
+
+                </div>
+
+
+                <div id="memberPanel">
+
+                    <h2>Welcome back</h2>
+
+                    <p>
+                        Sign in with your member ID.
+                    </p>
+
+                    {% if member_error %}
+                        <p class="error-message">
+                            {{ member_error }}
+                        </p>
+                    {% endif %}
+
+                    <form
+                        action="/member/login"
+                        method="POST"
+                    >
+
+                        <label>Member ID</label>
+
+                        <input
+                            type="text"
+                            name="member_id"
+                            placeholder="Enter your member ID"
+                            required
+                        >
+
+                        <button class="gold-button">
+                            Enter Library
+                        </button>
+
+                    </form>
+
+
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+
+
+                    <form
+                        action="/member/register"
+                        method="POST"
+                    >
+
+                        <label>New member?</label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Your full name"
+                            required
+                        >
+
+                        <button class="outline-button">
+                            Create Membership
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div
+                    id="adminPanel"
+                    class="hidden"
+                >
+
+                    <h2>Administrator</h2>
+
+                    <p>
+                        Manage books and members.
+                    </p>
+
+                    {% if admin_error %}
+                        <p class="error-message">
+                            {{ admin_error }}
+                        </p>
+                    {% endif %}
+
+                    <form
+                        action="/admin/login"
+                        method="POST"
+                    >
+
+                        <label>Username</label>
+
+                        <input
+                            type="text"
+                            name="username"
+                            required
+                        >
+
+                        <label>Password</label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            required
+                        >
+
+                        <button class="gold-button">
+                            Admin Login
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script
+        src="{{ url_for('static', filename='script.js') }}"
+    ></script>
+
+</body>
+
+</html>
