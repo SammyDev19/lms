@@ -47,8 +47,8 @@ lms/
 Clone the repository:
 
 ```bash
-git clone https://github.com/SammyCruz19/lms.git
-cd lms-oop
+git clone https://github.com/SammyDev19/lms.git
+cd lms
 ```
 
 Create and activate a virtual environment:
